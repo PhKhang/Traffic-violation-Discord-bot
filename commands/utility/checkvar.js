@@ -1,8 +1,9 @@
-const { SlashCommandBuilder } = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 const fetch = require('node-fetch');
 const { URLSearchParams } = require('url');
 const HTMLParser = require('node-html-parser');
 const PrismaClient = require('@prisma/client').PrismaClient;
+require("better-stack-traces").register()
 
 const prisma = new PrismaClient()
 
@@ -17,6 +18,14 @@ const headers = {
     'Sec-Fetch-Site': 'same-origin',
 };
 
+const embed = new EmbedBuilder()
+    .setFooter(
+        {
+            text: "Created by me, with ❤️‍🩹",
+            iconURL: "https://api.iconify.design/meteor-icons:discord.svg"
+        }
+    )
+
 module.exports = {
     data: new SlashCommandBuilder()
         .setName("checkvar")
@@ -27,11 +36,13 @@ module.exports = {
                 .setDescription("Enter the license plate number")
         ),
     async execute(interaction) {
+        await interaction.deferReply();
+        
         const plate = interaction.options.getString("plate") ?? "";
         var vehicleType = 2;
 
         if (plate.trim() === "") {
-            return await interaction.reply("Please enter a license plate number");
+            return await interaction.editReply("Please enter a license plate number");
         }
 
         const params = new URLSearchParams();
@@ -53,21 +64,21 @@ module.exports = {
                 root = HTMLParser.parse(data);
                 const violations = root.querySelectorAll('center h3')[1].text;
 
-                await prisma.user.create({
-                    data: {
-                        discordId: interaction.user.id,
-                        plate: plate,
-                        accessCount: 1
-                    },
-                })
-                console.log("User created");
+                // await prisma.user.create({
+                //     data: {
+                //         discordId: interaction.user.id,
+                //         plate: plate,
+                //         accessCount: 1
+                //     },
+                // })
+                // console.log("User created");
 
-                console.log(violations);
-                await interaction.reply(violations);
+                console.log(`${plate}: ${violations}`);
+                await interaction.editReply(`${plate}: ${violations}`);
             })
             .catch(async error => {
                 console.error('Error:', error);
-                await interaction.reply("An error occurred while processing the request");
+                await interaction.editReply("An error occurred while processing the request");
             });
 
         // await interaction.reply("Processing request failed");

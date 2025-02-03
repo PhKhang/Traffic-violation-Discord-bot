@@ -2,6 +2,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { Client, Collection, Events, GatewayIntentBits } = require('discord.js');
 const dotenv = require('dotenv');
+require("better-stack-traces").register()
 
 dotenv.config();
 const token = process.env.TOKEN;
