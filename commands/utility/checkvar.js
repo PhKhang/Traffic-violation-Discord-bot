@@ -127,7 +127,22 @@ module.exports = {
                     // 51D-665.36: đã xử phạt
                     // : chưa xử phạt
                     console.log(`${plate} có lỗi vi phạm`);
-                    interaction.editReply(`⚠️ ${plate} có lỗi vi phạm: xem chi tiết tại đây [phatnguoixe.com](https://phatnguoixe.com/1026)`);
+                    // interaction.editReply(`⚠️ ${plate} có lỗi vi phạm: xem chi tiết tại đây [phatnguoixe.com](https://phatnguoixe.com)`);
+                    interaction.editReply({
+                        content: `Kết quả cho biển số ${plate}`,
+                        embeds: [
+                            embed
+                                .setColor("#e10054")
+                                .setTitle("Phát hiện vi phạm giao thông")
+                                .setDescription(`Biển số ${plate} với loại xe là ${vehicleType} đã có lỗi vi phạm nguội, xem chi tiết tại [phatnguoixe.com](https://phatnguoixe.com)`)
+                                .addFields(
+                                    { name: "❓ Kết quả này là sao?", value: "Biển số xe đã vi phạm lỗi giao thông nào và có thông tin trong hệ thống Cổng thông tin điện tử Cục Cảnh sát giao thông." },
+                                    { name: "🗓️ Kiểm lại lần khác", value: "Sau khi giải quyết lỗi vi phạm, kiểm tra lại thường xuyên để có kết quả xử lý mới nhất." }
+                                )
+                                .setThumbnail("https://pub-b0a9bdcea1cd4f6ca28d98f878366466.r2.dev/MeteorIconsTriangleExclamation.png")
+                                .setTimestamp()
+                        ]
+                    });
                 }
 
             })
