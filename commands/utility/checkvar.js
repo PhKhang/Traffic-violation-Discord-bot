@@ -48,7 +48,7 @@ module.exports = {
         console.log("Defere reply sent in", Date.now() - start, "ms")
 
         let plate = interaction.options.getString("plate") ?? "";
-        plate = plate.replaceAll(' ', '').toUpperCase();
+        plate = plate.replaceAll(/(\.|-| )/g, "").toUpperCase();
         let vehicleType = interaction.options.getInteger("vehicle-type") ?? 2;
 
         if ((plate.length < 8 && plate.length != 0) || plate.length > 10) {
@@ -100,11 +100,12 @@ module.exports = {
                 return response.text();
             })
             .then(async data => {
-                console.log("Data: ", data.substring(0, 150) + "...");
+                console.log("Data: ", data.substring(0, 500) + "...");
                 root = HTMLParser.parse(data);
-                const violations = root.querySelectorAll('center h3')[1].text;
-
-                if (violations.length <= 36) {
+                console.log("H3 amounts", root.querySelectorAll('center h3').length)
+                
+                if (root.querySelectorAll('center h3').length === 2) {
+                    const violations = root.querySelectorAll('center h3')[0].text;
                     console.log(`${plate}: ${violations}`);
                     // interaction.editReply(`${plate}: ${violations}`); 
                     interaction.editReply({
@@ -123,8 +124,10 @@ module.exports = {
                         ]
                     });
                 } else {
-                    console.log(`${plate} có lỗi vi phạm: ${violations}`);
-                    interaction.editReply(`${plate}: ${violations}`);
+                    // 51D-665.36: đã xử phạt
+                    // : chưa xử phạt
+                    console.log(`${plate} có lỗi vi phạm`);
+                    interaction.editReply(`⚠️ ${plate} có lỗi vi phạm: xem chi tiết tại đây [phatnguoixe.com](https://phatnguoixe.com/1026)`);
                 }
 
             })

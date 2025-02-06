@@ -10,3 +10,6 @@ Features:
 # Todo
 - [x] trim + remove spaces
 - [x] check database
+- [] remove dashes, periods
+- [] show violations if exist
+- [] choose plates command
