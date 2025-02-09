@@ -19,6 +19,8 @@ model User {
   plate    String
   vehicleType Int
   accessCount Int
+  lastAccessTime DateTime? 
   
   @@unique([discordId, plate])
+  @@index([discordId, lastAccessTime])
 }

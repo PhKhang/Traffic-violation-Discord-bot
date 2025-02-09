@@ -26,7 +26,8 @@ Features:
 - [x] check database
 - [x] remove dashes, periods
 - [x] show violations if exist
-- [] choose plates command
-- [] auto choose plate by recent, not lookup amount
-- [] image extraction
+- [x] migrate 
+- [x] auto choose plate by recent, not lookup amount
 - [] cloudflare worker
+- [] choose plates command
+- [] image extraction

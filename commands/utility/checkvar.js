@@ -24,6 +24,8 @@ module.exports = {
         )
     ,
     async execute(interaction) {
+        console.log(new Date().toISOString(), "Command executed: checkvar");
+        
         const url = 'https://phatnguoixe.com/1026';
         const headers = {
             'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
@@ -65,7 +67,7 @@ module.exports = {
                     discordId: interaction.user.id
                 },
                 orderBy: {
-                    accessCount: "desc"
+                    lastAccessTime: "desc"
                 }
             })
             console.log("Prisma query done in", Date.now() - start, "ms");
@@ -114,7 +116,7 @@ module.exports = {
                             embed
                                 .setColor("#00e078")
                                 .setTitle("Không tìm thấy vi phạm nguội")
-                                .setDescription(`Biển số ${plate} với loại xe là ${vehicleType} không tìm thấy lỗi vi phạm nguội`)
+                                .setDescription(`Biển số ${plate} với loại xe là ${vehicleType} không tìm thấy lỗi vi phạm nguội. Xem thêm tại [phatnguoixe.com](https://phatnguoixe.com)`)
                                 .addFields(
                                     { name: "❓ Kết quả này là sao?", value: "Biển số xe chưa vi phạm lỗi giao thông nào và không có vi phạm nào trong hệ thống Cổng thông tin điện tử Cục Cảnh sát giao thông." },
                                     { name: "🗓️ Kiểm lại lần khác", value: "Thông thường các lỗi sẽ xuất hiện sau 3 đến 15 ngày. Hãy thường xuyên kiểm tra để có kết quả mới nhất." }
